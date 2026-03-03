@@ -1,5 +1,5 @@
 export const burialVaults = [
-  { id: 'none', name: 'None', image: null },
+  { id: 'none', name: 'None', image: '/products/none-placeholder.jpg' },
   { id: 'concrete-box', name: 'Concrete Box', image: '/products/concrete-box.jpg' },
   { id: 'delphi', name: 'Delphi', image: '/products/delphi.jpg' },
   { id: 'titan', name: 'Titan', image: '/products/titan.jpg' },
@@ -13,18 +13,18 @@ export const burialVaults = [
   { id: 'doric-bronze', name: 'Doric Bronze', image: '/products/bronze-doric.jpg' },
   { id: 'olympian-ss', name: 'Olympian Stainless Steel', image: '/products/olympian1.jpg' },
   { id: 'olympian-bronze', name: 'Olympian Bronze', image: '/products/olympian2.jpg' },
-  { id: 'steel-vaults-box', name: 'Steel Vaults Box', image: null },
+  { id: 'steel-vaults-box', name: 'Steel Vaults Box', image: '/products/steel-vaults-box.jpg' },
 ]
 
 export const urnVaults = [
-  { id: 'none', name: 'None', image: null },
+  { id: 'none', name: 'None', image: '/products/none-placeholder.jpg' },
   { id: 'urn-concrete', name: 'Concrete Urn Vault' },
   { id: 'urn-steel', name: 'Steel Urn Vault' },
   { id: 'urn-bronze', name: 'Bronze Urn Vault' },
 ]
 
 export const infantVaults = [
-  { id: 'none', name: 'None', image: null },
+  { id: 'none', name: 'None', image: '/products/none-placeholder.jpg' },
   { id: 'infant-concrete', name: 'Infant Concrete Vault' },
   { id: 'infant-steel', name: 'Infant Steel Vault' },
 ]
