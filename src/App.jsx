@@ -48,7 +48,8 @@ const initialForm = {
   shade: '',
   emblem: '',
   // Step 5 - Services
-  graveOpenClose: '',
+  graveOpen: '',
+  graveClose: '',
   cemeteryServices: '',
   additionalServices: '',
   specialServiceRequests: '',

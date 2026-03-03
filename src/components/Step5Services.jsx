@@ -24,11 +24,18 @@ export default function Step5Services({ form, updateForm, next, prev, files, set
         <span className="flex items-center gap-2"><Wrench size={20} /> Services & Documents</span>
       </SectionTitle>
       <div className="space-y-4">
-        <Select label="Grave Open/Close" value={form.graveOpenClose} onChange={e => updateForm({ graveOpenClose: e.target.value })}>
-          <option value="">Select</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </Select>
+        <div className="grid grid-cols-2 gap-4">
+          <Select label="Grave Open" value={form.graveOpen} onChange={e => updateForm({ graveOpen: e.target.value })}>
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </Select>
+          <Select label="Grave Close" value={form.graveClose} onChange={e => updateForm({ graveClose: e.target.value })}>
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </Select>
+        </div>
         <Select label="Cemetery Services" value={form.cemeteryServices} onChange={e => updateForm({ cemeteryServices: e.target.value })}>
           <option value="">Select</option>
           <option value="Yes">Yes</option>

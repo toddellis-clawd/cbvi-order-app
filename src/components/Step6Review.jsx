@@ -61,7 +61,8 @@ export default function Step6Review({ form, prev, files, onSubmit }) {
 
         <div>
           <p className="text-xs font-semibold text-[#1a5c2a] uppercase tracking-wide mb-2">Services</p>
-          <ReviewRow label="Grave Open/Close" value={form.graveOpenClose} />
+          <ReviewRow label="Grave Open" value={form.graveOpen} />
+          <ReviewRow label="Grave Close" value={form.graveClose} />
           <ReviewRow label="Cemetery Services" value={form.cemeteryServices} />
           <ReviewRow label="Additional" value={form.additionalServices} />
           <ReviewRow label="Special Requests" value={form.specialServiceRequests} />
