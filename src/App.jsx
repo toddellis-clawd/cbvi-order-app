@@ -32,15 +32,13 @@ const initialForm = {
   deliveryDate: '',
   deliveryDay: '',
   deliveryTime: '',
-  deliveryAmPm: 'AM',
   serviceType: '',
   serviceTypeOther: '',
   deceasedName: '',
   birthYear: '',
   deathYear: '',
   // Step 3 - Burial Unit
-  concreteVault: 'none',
-  steelVault: 'none',
+  burialVault: 'none',
   urnVault: 'none',
   infantVault: 'none',
   // Step 4 - Customization

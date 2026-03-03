@@ -1,6 +1,6 @@
 import { Input, Select, NavButtons, SectionTitle } from './FormField'
 import { MapPin } from 'lucide-react'
-import { serviceTypes, daysOfWeek } from '../data/products'
+import { serviceTypes, daysOfWeek, deliveryTimes } from '../data/products'
 
 export default function Step2Service({ form, updateForm, next, prev }) {
   const valid = form.cemetery && form.deliveryDate && form.deceasedName
@@ -22,13 +22,10 @@ export default function Step2Service({ form, updateForm, next, prev }) {
           </Select>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <Input label="Delivery Time" type="time" value={form.deliveryTime} onChange={e => updateForm({ deliveryTime: e.target.value })} />
-          <Select label="AM / PM" value={form.deliveryAmPm} onChange={e => updateForm({ deliveryAmPm: e.target.value })}>
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-          </Select>
-        </div>
+        <Select label="Delivery Time" value={form.deliveryTime} onChange={e => updateForm({ deliveryTime: e.target.value })}>
+          <option value="">Select Time</option>
+          {deliveryTimes.map(t => <option key={t} value={t}>{t}</option>)}
+        </Select>
 
         <div className="grid grid-cols-2 gap-4">
           <Select label="Type of Service" value={form.serviceType} onChange={e => updateForm({ serviceType: e.target.value })}>

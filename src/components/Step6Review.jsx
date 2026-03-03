@@ -1,6 +1,6 @@
 import { NavButtons, SectionTitle } from './FormField'
 import { ClipboardCheck, AlertTriangle } from 'lucide-react'
-import { concreteVaults, steelVaults, urnVaults, infantVaults } from '../data/products'
+import { burialVaults, urnVaults, infantVaults } from '../data/products'
 
 function ReviewRow({ label, value }) {
   if (!value || value === 'none') return null
@@ -38,7 +38,7 @@ export default function Step6Review({ form, prev, files, onSubmit }) {
           <p className="text-xs font-semibold text-[#1a5c2a] uppercase tracking-wide mb-2">Service Details</p>
           <ReviewRow label="Cemetery" value={form.cemetery} />
           <ReviewRow label="Location" value={form.cemeteryLocation} />
-          <ReviewRow label="Delivery" value={`${form.deliveryDate} ${form.deliveryDay} ${form.deliveryTime} ${form.deliveryAmPm}`} />
+          <ReviewRow label="Delivery" value={`${form.deliveryDate} ${form.deliveryDay} ${form.deliveryTime || ""}`} />
           <ReviewRow label="Service Type" value={form.serviceType === 'Other' ? form.serviceTypeOther : form.serviceType} />
           <ReviewRow label="Deceased" value={form.deceasedName} />
           <ReviewRow label="DOB / DOD" value={form.birthYear || form.deathYear ? `${form.birthYear || '?'} – ${form.deathYear || '?'}` : null} />
@@ -46,10 +46,9 @@ export default function Step6Review({ form, prev, files, onSubmit }) {
 
         <div>
           <p className="text-xs font-semibold text-[#1a5c2a] uppercase tracking-wide mb-2">Burial Unit</p>
-          <ReviewRow label="Concrete" value={getVaultName(concreteVaults, form.concreteVault)} />
-          <ReviewRow label="Steel" value={getVaultName(steelVaults, form.steelVault)} />
-          <ReviewRow label="Urn" value={getVaultName(urnVaults, form.urnVault)} />
-          <ReviewRow label="Infant" value={getVaultName(infantVaults, form.infantVault)} />
+          <ReviewRow label="Burial Vault" value={getVaultName(burialVaults, form.burialVault)} />
+          <ReviewRow label="Urn Vault" value={getVaultName(urnVaults, form.urnVault)} />
+          <ReviewRow label="Infant Vault" value={getVaultName(infantVaults, form.infantVault)} />
         </div>
 
         <div>
