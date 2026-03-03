@@ -1,4 +1,3 @@
-// Format order data into readable text
 export function formatOrder(form, files) {
   const lines = [
     '=== CBVI BURIAL VAULT ORDER ===',
@@ -50,7 +49,7 @@ export function formatOrder(form, files) {
 export async function submitOrder(form, files) {
   const orderText = formatOrder(form, files)
 
-  // Store order locally
+  // Store locally as backup
   const orders = JSON.parse(localStorage.getItem('cbvi_orders') || '[]')
   orders.push({
     id: Date.now(),
@@ -61,12 +60,17 @@ export async function submitOrder(form, files) {
   })
   localStorage.setItem('cbvi_orders', JSON.stringify(orders))
 
-  // TODO: Wire up production email + SMS
-  // Email: centralvaults@centralvaults.com
-  // SMS: 405-495-7075
-  console.log('Order stored. Email/SMS integration pending backend setup.')
-  console.log('Email to: centralvaults@centralvaults.com')
-  console.log('SMS to: 405-495-7075')
-
-  return { success: true, orderText }
+  // Send to API
+  try {
+    const res = await fetch('/api/submit-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderText, form }),
+    })
+    const data = await res.json()
+    return { success: true, emailSent: data.success && !data.partial, orderText }
+  } catch (e) {
+    console.error('API error:', e)
+    return { success: true, emailSent: false, orderText, error: e.message }
+  }
 }
