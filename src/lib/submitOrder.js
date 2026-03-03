@@ -1,3 +1,5 @@
+const API_KEY = import.meta.env.VITE_CBVI_API_KEY || ''
+
 export function formatOrder(form, files) {
   const lines = [
     '=== CBVI BURIAL VAULT ORDER ===',
@@ -49,7 +51,6 @@ export function formatOrder(form, files) {
 export async function submitOrder(form, files) {
   const orderText = formatOrder(form, files)
 
-  // Store locally as backup
   const orders = JSON.parse(localStorage.getItem('cbvi_orders') || '[]')
   orders.push({
     id: Date.now(),
@@ -60,11 +61,13 @@ export async function submitOrder(form, files) {
   })
   localStorage.setItem('cbvi_orders', JSON.stringify(orders))
 
-  // Send to API
   try {
     const res = await fetch('/api/submit-order', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+      },
       body: JSON.stringify({ orderText, form }),
     })
     const data = await res.json()

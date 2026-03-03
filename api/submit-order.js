@@ -3,6 +3,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
+  // API key check
+  const apiKey = req.headers['x-api-key']
+  if (!apiKey || apiKey !== process.env.CBVI_API_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' })
+  }
+
   const { orderText, form } = req.body
 
   if (!orderText || !form) {
@@ -33,10 +39,6 @@ export default async function handler(req, res) {
   } catch (e) {
     errors.push(`Email error: ${e.message}`)
   }
-
-  // Send SMS via Resend is not supported — we'll use a simple webhook approach
-  // For now, send a notification email that can trigger SMS via Zapier/Make
-  // Or we add Twilio later
 
   if (errors.length > 0) {
     return res.status(207).json({ success: true, partial: true, errors })
