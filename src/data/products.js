@@ -34,7 +34,16 @@ export const colorOptions = [
 ]
 
 export const shadeOptions = [
-  'Light', 'Medium', 'Dark'
+  'Black', 'Blue', 'Dk. Blue', 'Lt. Blue', 'M. Blue', 'Navy Blue',
+  'Bronze', 'Dk. Bronze', 'Lt. Bronze',
+  'Brown', 'Dk. Brown', 'Lt. Brown',
+  'Burgundy', 'Copper', 'Dusty Rose',
+  'Gold', 'Green', 'Grey', 'Gun Metal Grey',
+  'Orange', 'Orchid',
+  'Pink', 'Dk. Pink', 'Lt. Pink',
+  'Purple', 'KS Purple', 'Lt. Purple',
+  'Red', 'OU Red',
+  'Rose Gold', 'Silver', 'White'
 ]
 
 export const emblemOptions = [
