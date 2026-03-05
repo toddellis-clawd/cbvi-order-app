@@ -7,8 +7,19 @@ export default function Step2Service({ form, updateForm, next, prev }) {
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
   const minDate = tomorrow.toISOString().split('T')[0]
-  
-  const valid = form.cemetery && form.deliveryDate && form.deceasedName
+
+  // Validate date on selection — reject anything before tomorrow
+  const handleDateChange = (e) => {
+    const selected = e.target.value
+    if (selected < minDate) {
+      updateForm({ deliveryDate: '' })
+      return
+    }
+    updateForm({ deliveryDate: selected })
+  }
+
+  const dateError = form.deliveryDate && form.deliveryDate < minDate
+  const valid = form.cemetery && form.deliveryDate && form.deliveryDate >= minDate && form.deceasedName
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -20,7 +31,13 @@ export default function Step2Service({ form, updateForm, next, prev }) {
         <Input label="Cemetery Location" value={form.cemeteryLocation} onChange={e => updateForm({ cemeteryLocation: e.target.value })} placeholder="Section, lot, etc." />
         
         <div className="grid grid-cols-2 gap-4">
-          <Input label="Delivery Date" type="date" value={form.deliveryDate} onChange={e => updateForm({ deliveryDate: e.target.value })} min={minDate} required />
+          <div>
+            <Input label="Delivery Date" type="date" value={form.deliveryDate} onChange={handleDateChange} min={minDate} required />
+            {dateError && (
+              <p className="text-red-600 text-xs mt-1 font-medium">Orders must be placed at least 24 hours in advance.</p>
+            )}
+            <p className="text-gray-400 text-xs mt-1">Earliest available: {new Date(minDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
+          </div>
           <Select label="Delivery Day" value={form.deliveryDay} onChange={e => updateForm({ deliveryDay: e.target.value })}>
             <option value="">Select Day</option>
             {daysOfWeek.map(d => <option key={d} value={d}>{d}</option>)}
