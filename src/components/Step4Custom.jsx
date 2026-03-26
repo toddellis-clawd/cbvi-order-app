@@ -20,6 +20,7 @@ export default function Step4Custom({ form, updateForm, next, prev }) {
         <Select label="Emblem" value={form.emblem} onChange={e => updateForm({ emblem: e.target.value })}>
           <option value="">Select Emblem</option>
           {emblemOptions.map(e => <option key={e} value={e}>{e}</option>)}
+          <option value="contact-office">Not Listed / Custom — Contact Office</option>
         </Select>
       </div>
       <NavButtons onPrev={prev} onNext={next} />

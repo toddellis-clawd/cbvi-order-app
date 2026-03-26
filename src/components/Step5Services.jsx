@@ -74,9 +74,10 @@ export default function Step5Services({ form, updateForm, next, prev, files, set
         <div className="border-t border-gray-100 pt-4 mt-4">
           <p className="text-sm font-medium text-gray-700 mb-3">Payment Method</p>
           <Select value={form.paymentMethod} onChange={e => updateForm({ paymentMethod: e.target.value })}>
-            <option value="credit-on-file">Credit Card on File</option>
+            <option value="">Select Payment Method</option>
+            <option value="credit-card">Credit Card</option>
             <option value="invoice">Invoice</option>
-            <option value="other">Other</option>
+            <option value="ach">ACH</option>
           </Select>
           <div className="mt-4">
             <TextArea label="Special Requests" value={form.specialRequests} onChange={e => updateForm({ specialRequests: e.target.value })} rows={2} placeholder="Any payment or billing notes..." />

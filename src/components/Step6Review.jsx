@@ -55,7 +55,7 @@ export default function Step6Review({ form, prev, files, onSubmit }) {
           <p className="text-xs font-semibold text-[#1a5c2a] uppercase tracking-wide mb-2">Customization</p>
           <ReviewRow label="Color" value={form.color} />
           <ReviewRow label="Shade" value={form.shade} />
-          <ReviewRow label="Emblem" value={form.emblem} />
+          <ReviewRow label="Emblem" value={form.emblem === 'contact-office' ? 'Custom — Contact Office' : form.emblem} />
         </div>
 
         <div>
@@ -65,7 +65,7 @@ export default function Step6Review({ form, prev, files, onSubmit }) {
           <ReviewRow label="Cemetery Services" value={form.cemeteryServices} />
           <ReviewRow label="Additional" value={form.additionalServices} />
           <ReviewRow label="Special Requests" value={form.specialServiceRequests} />
-          <ReviewRow label="Payment" value={form.paymentMethod === 'credit-on-file' ? 'Credit Card on File' : form.paymentMethod} />
+          <ReviewRow label="Payment" value={form.paymentMethod === 'credit-card' ? 'Credit Card' : form.paymentMethod === 'ach' ? 'ACH' : form.paymentMethod === 'invoice' ? 'Invoice' : form.paymentMethod} />
           {files.length > 0 && <ReviewRow label="Files" value={`${files.length} file(s) attached`} />}
         </div>
       </div>
