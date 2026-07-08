@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { submitOrder } from './lib/submitOrder'
 import Header from './components/Header'
 import StepIndicator from './components/StepIndicator'
 import Step1Director from './components/Step1Director'
@@ -67,9 +68,17 @@ export default function App() {
   const prev = () => setStep(s => Math.max(s - 1, 1))
   const goTo = (s) => setStep(s)
 
-  const handleSubmit = () => {
-    console.log('Order submitted:', form, files)
-    setSubmitted(true)
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleSubmit = async () => {
+    if (submitting) return
+    setSubmitting(true)
+    try {
+      await submitOrder(form, files)
+    } finally {
+      setSubmitting(false)
+      setSubmitted(true)
+    }
   }
 
   if (submitted) return <Confirmation form={form} onReset={() => { setForm(initialForm); setFiles([]); setSubmitted(false); setStep(1) }} />

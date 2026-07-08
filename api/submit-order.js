@@ -26,8 +26,8 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'CBVI Orders <orders@resend.dev>',
-        to: ['centralvaults@centralvaults.com'],
+        from: process.env.ORDER_FROM_EMAIL || 'CBVI Orders <orders@resend.dev>',
+        to: [process.env.ORDER_TO_EMAIL || 'centralvaults@centralvaults.com'],
         subject: `New Burial Vault Order — ${form.funeralHomeName || 'Unknown'} — ${form.deceasedName || 'Unknown'}`,
         text: orderText,
       }),
