@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { submitOrder } from './lib/submitOrder'
 import Header from './components/Header'
 import StepIndicator from './components/StepIndicator'
@@ -86,19 +87,22 @@ export default function App() {
   const stepProps = { form, updateForm, next, prev, goTo }
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa]">
-      <Header />
-      <div className="max-w-2xl mx-auto px-4 py-6">
-        <StepIndicator steps={STEPS} current={step} goTo={goTo} />
-        <div className="mt-6">
-          {step === 1 && <Step1Director {...stepProps} />}
-          {step === 2 && <Step2Service {...stepProps} />}
-          {step === 3 && <Step3Vault {...stepProps} />}
-          {step === 4 && <Step4Custom {...stepProps} />}
-          {step === 5 && <Step5Services {...stepProps} files={files} setFiles={setFiles} />}
-          {step === 6 && <Step6Review {...stepProps} files={files} onSubmit={handleSubmit} />}
+    <>
+      <div className="min-h-screen bg-[#f8f9fa]">
+        <Header />
+        <div className="max-w-2xl mx-auto px-4 py-6">
+          <StepIndicator steps={STEPS} current={step} goTo={goTo} />
+          <div className="mt-6">
+            {step === 1 && <Step1Director {...stepProps} />}
+            {step === 2 && <Step2Service {...stepProps} />}
+            {step === 3 && <Step3Vault {...stepProps} />}
+            {step === 4 && <Step4Custom {...stepProps} />}
+            {step === 5 && <Step5Services {...stepProps} files={files} setFiles={setFiles} />}
+            {step === 6 && <Step6Review {...stepProps} files={files} onSubmit={handleSubmit} />}
+          </div>
         </div>
       </div>
-    </div>
+      <Analytics />
+    </>
   )
 }
