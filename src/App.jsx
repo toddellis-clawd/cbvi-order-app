@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { submitOrder } from './lib/submitOrder'
 import Header from './components/Header'
 import StepIndicator from './components/StepIndicator'
@@ -99,6 +100,7 @@ export default function App() {
           {step === 6 && <Step6Review {...stepProps} files={files} onSubmit={handleSubmit} />}
         </div>
       </div>
+      <Analytics />
     </div>
   )
 }
