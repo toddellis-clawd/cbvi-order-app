@@ -1,3 +1,5 @@
+import { getAccess } from './access'
+
 const API_KEY = import.meta.env.VITE_CBVI_API_KEY || ''
 
 export function formatOrder(form, files) {
@@ -67,9 +69,13 @@ export async function submitOrder(form, files) {
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': API_KEY,
+        'x-access-password': getAccess(),
       },
       body: JSON.stringify({ orderText, form }),
     })
+    if (res.status === 401) {
+      return { success: false, unauthorized: true, orderText }
+    }
     const data = await res.json()
     return { success: true, emailSent: data.success && !data.partial, orderText }
   } catch (e) {

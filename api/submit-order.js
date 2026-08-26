@@ -1,3 +1,5 @@
+import { checkAccessPassword } from './_auth.js'
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -7,6 +9,12 @@ export default async function handler(req, res) {
   const apiKey = req.headers['x-api-key']
   if (!apiKey || apiKey !== process.env.CBVI_API_KEY) {
     return res.status(401).json({ error: 'Unauthorized' })
+  }
+
+  // Shared funeral-home access password - blocks orders from anyone who
+  // skips the password screen and posts here directly.
+  if (!checkAccessPassword(req.headers['x-access-password'])) {
+    return res.status(401).json({ error: 'Unauthorized', reason: 'access-password' })
   }
 
   const { orderText, form } = req.body

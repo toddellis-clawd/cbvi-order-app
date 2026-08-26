@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { submitOrder } from './lib/submitOrder'
+import { hasAccess, clearAccess, revalidateAccess } from './lib/access'
 import Header from './components/Header'
+import PasswordGate from './components/PasswordGate'
 import StepIndicator from './components/StepIndicator'
 import Step1Director from './components/Step1Director'
 import Step2Service from './components/Step2Service'
@@ -58,10 +60,24 @@ const initialForm = {
 }
 
 export default function App() {
+  const [authed, setAuthed] = useState(() => hasAccess())
+  const [authNotice, setAuthNotice] = useState('')
   const [step, setStep] = useState(1)
   const [form, setForm] = useState(initialForm)
   const [submitted, setSubmitted] = useState(false)
   const [files, setFiles] = useState([])
+
+  // If CBVI changes the password, drop the one saved on this device.
+  // Only checks the stored password on load - entering it at the gate already verifies it.
+  useEffect(() => {
+    if (!hasAccess()) return
+    revalidateAccess().then(valid => {
+      if (!valid) {
+        setAuthNotice('The access password has changed. Please enter the new one.')
+        setAuthed(false)
+      }
+    })
+  }, [])
 
   const updateForm = (updates) => setForm(prev => ({ ...prev, ...updates }))
   const next = () => setStep(s => Math.min(s + 1, 6))
@@ -74,11 +90,27 @@ export default function App() {
     if (submitting) return
     setSubmitting(true)
     try {
-      await submitOrder(form, files)
+      const result = await submitOrder(form, files)
+      if (result.unauthorized) {
+        // Password no longer valid - send them back to the gate with the form intact.
+        clearAccess()
+        setAuthNotice('Your access password is no longer valid. Please re-enter it, then submit your order again.')
+        setAuthed(false)
+        return
+      }
+      setSubmitted(true)
     } finally {
       setSubmitting(false)
-      setSubmitted(true)
     }
+  }
+
+  if (!authed) {
+    return (
+      <PasswordGate
+        notice={authNotice}
+        onSuccess={() => { setAuthNotice(''); setAuthed(true) }}
+      />
+    )
   }
 
   if (submitted) return <Confirmation form={form} onReset={() => { setForm(initialForm); setFiles([]); setSubmitted(false); setStep(1) }} />
