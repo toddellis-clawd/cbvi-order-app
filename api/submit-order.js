@@ -34,7 +34,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: process.env.ORDER_FROM_EMAIL || 'CBVI Orders <orders@resend.dev>',
+        from: (process.env.ORDER_FROM_EMAIL || 'CBVI Orders <orders@resend.dev>').trim(),
         // Comma-separated list, e.g. "karen@example.com,richard@example.com"
         to: (process.env.ORDER_TO_EMAIL || 'centralvaults@centralvaults.com')
           .split(',').map(s => s.trim()).filter(Boolean),
