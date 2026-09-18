@@ -35,7 +35,9 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: process.env.ORDER_FROM_EMAIL || 'CBVI Orders <orders@resend.dev>',
-        to: [process.env.ORDER_TO_EMAIL || 'centralvaults@centralvaults.com'],
+        // Comma-separated list, e.g. "karen@example.com,richard@example.com"
+        to: (process.env.ORDER_TO_EMAIL || 'centralvaults@centralvaults.com')
+          .split(',').map(s => s.trim()).filter(Boolean),
         subject: `New Burial Vault Order — ${form.funeralHomeName || 'Unknown'} — ${form.deceasedName || 'Unknown'}`,
         text: orderText,
       }),
