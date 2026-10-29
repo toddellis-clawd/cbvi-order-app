@@ -62,7 +62,7 @@ export default async function handler(req, res) {
         text: [
           `Thank you${form.directorName ? `, ${form.directorName}` : ''}. CBVI has received your burial vault order.`,
           '',
-          'Your order will be completed upon receiving a confirmation phone call.',
+          'Your order will be completed upon receiving a confirmation email from CBVI.',
           '',
           'A copy of your order is below for your records.',
           '',

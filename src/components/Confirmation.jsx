@@ -13,7 +13,7 @@ export default function Confirmation({ form, onReset }) {
         </p>
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
           <p className="text-sm text-amber-800 font-medium">
-            Your order will be completed upon receiving a confirmation phone call.
+            Your order will be completed upon receiving a confirmation email.
           </p>
         </div>
         <p className="text-sm text-gray-500 mb-6">

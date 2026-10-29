@@ -74,7 +74,7 @@ export default function Step6Review({ form, prev, files, onSubmit }) {
       <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
         <AlertTriangle size={20} className="text-amber-500 shrink-0 mt-0.5" />
         <p className="text-sm text-amber-800 font-medium">
-          NOTICE: Your order will be completed upon receiving a confirmation phone call.
+          NOTICE: Your order will be completed upon receiving a confirmation email.
         </p>
       </div>
 
