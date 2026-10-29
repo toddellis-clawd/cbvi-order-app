@@ -60,7 +60,9 @@ export default function Step5Services({ form, updateForm, next, prev, files, set
           </div>
           <div className="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-3">
             <p className="text-sm text-amber-800">
-              <span className="font-medium">Photos:</span> please email any photos to{' '}
+              <span className="font-medium">Photos:</span> photos attached here are resized so they
+              can be sent with your order. Very large photos, or several at once, are best emailed
+              directly to{' '}
               <a
                 href="mailto:centralvaults@centralvaults.com"
                 className="font-medium underline break-all"
