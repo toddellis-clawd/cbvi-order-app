@@ -58,6 +58,18 @@ export default function Step5Services({ form, updateForm, next, prev, files, set
             <p className="text-xs text-gray-400 mt-1">Permits, documents, etc.</p>
             <input ref={fileRef} type="file" multiple onChange={handleFiles} className="hidden" />
           </div>
+          <div className="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-3">
+            <p className="text-sm text-amber-800">
+              <span className="font-medium">Photos:</span> please email any photos to{' '}
+              <a
+                href="mailto:centralvaults@centralvaults.com"
+                className="font-medium underline break-all"
+              >
+                centralvaults@centralvaults.com
+              </a>
+              .
+            </p>
+          </div>
           {files.length > 0 && (
             <div className="mt-3 space-y-2">
               {files.map((f, i) => (
