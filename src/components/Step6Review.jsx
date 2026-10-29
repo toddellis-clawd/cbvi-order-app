@@ -17,7 +17,7 @@ function getVaultName(list, id) {
   return item && item.id !== 'none' ? item.name : null
 }
 
-export default function Step6Review({ form, prev, files, onSubmit }) {
+export default function Step6Review({ form, prev, files, onSubmit, error }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <SectionTitle>
@@ -77,6 +77,13 @@ export default function Step6Review({ form, prev, files, onSubmit }) {
           NOTICE: Your order will be completed upon receiving a confirmation email.
         </p>
       </div>
+
+      {error && (
+        <div className="mt-4 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
+          <AlertTriangle size={20} className="text-red-500 shrink-0 mt-0.5" />
+          <p className="text-sm text-red-800">{error}</p>
+        </div>
+      )}
 
       <NavButtons onPrev={prev} onNext={onSubmit} nextLabel="Place Order" />
     </div>

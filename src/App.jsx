@@ -85,12 +85,19 @@ export default function App() {
   const goTo = (s) => setStep(s)
 
   const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const handleSubmit = async () => {
     if (submitting) return
     setSubmitting(true)
+    setSubmitError('')
     try {
       const result = await submitOrder(form, files)
+      if (result.success === false && result.error) {
+        // Attachment problem - the order wasn't sent, so keep them on review.
+        setSubmitError(result.error)
+        return
+      }
       if (result.unauthorized) {
         // Password no longer valid - send them back to the gate with the form intact.
         clearAccess()
@@ -128,7 +135,7 @@ export default function App() {
           {step === 3 && <Step3Vault {...stepProps} />}
           {step === 4 && <Step4Custom {...stepProps} />}
           {step === 5 && <Step5Services {...stepProps} files={files} setFiles={setFiles} />}
-          {step === 6 && <Step6Review {...stepProps} files={files} onSubmit={handleSubmit} />}
+          {step === 6 && <Step6Review {...stepProps} files={files} onSubmit={handleSubmit} error={submitError} />}
         </div>
       </div>
     </div>

@@ -17,10 +17,15 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Unauthorized', reason: 'access-password' })
   }
 
-  const { orderText, form } = req.body
+  const { orderText, form, attachments } = req.body
 
   if (!orderText || !form) {
     return res.status(400).json({ error: 'Missing order data' })
+  }
+
+  const files = cleanAttachments(attachments)
+  if (files === null) {
+    return res.status(413).json({ error: 'Attachments too large' })
   }
 
   const errors = []
@@ -38,6 +43,7 @@ export default async function handler(req, res) {
       reply_to: isEmail(form.email) ? form.email.trim() : undefined,
       subject: `New Burial Vault Order — ${form.funeralHomeName || 'Unknown'} — ${form.deceasedName || 'Unknown'}`,
       text: orderText,
+      attachments: files.length > 0 ? files : undefined,
     })
     if (emailData.error) {
       errors.push(`Email error: ${JSON.stringify(emailData.error)}`)
@@ -97,6 +103,30 @@ async function sendEmail(payload) {
   })
   const data = await res.json()
   return res.ok ? data : { error: data }
+}
+
+// Resend takes attachments as { filename, content } with content base64 encoded.
+// Anything malformed is dropped rather than failing the order; null means the
+// batch is too big to send at all.
+const MAX_TOTAL_ENCODED_BYTES = 4 * 1024 * 1024
+
+function cleanAttachments(attachments) {
+  if (!Array.isArray(attachments) || attachments.length === 0) return []
+
+  const cleaned = []
+  let total = 0
+
+  for (const item of attachments) {
+    if (!item || typeof item.content !== 'string' || item.content.length === 0) continue
+    const filename = typeof item.filename === 'string' && item.filename.trim()
+      ? item.filename.trim().replace(/[\r\n"]/g, '').slice(-120)
+      : 'attachment'
+    total += item.content.length
+    if (total > MAX_TOTAL_ENCODED_BYTES) return null
+    cleaned.push({ filename, content: item.content })
+  }
+
+  return cleaned
 }
 
 function isEmail(value) {

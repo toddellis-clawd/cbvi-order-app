@@ -1,4 +1,5 @@
 import { getAccess } from './access'
+import { buildAttachments } from './attachments'
 
 const API_KEY = import.meta.env.VITE_CBVI_API_KEY || ''
 
@@ -53,6 +54,25 @@ export function formatOrder(form, files) {
 export async function submitOrder(form, files) {
   const orderText = formatOrder(form, files)
 
+  // Photos and documents ride along with the order email. If they're too big
+  // even after compression, stop and let the director drop one.
+  let attachments = []
+  try {
+    const prepared = await buildAttachments(files)
+    if (prepared.tooLarge) {
+      return { success: false, tooLarge: true, error: prepared.message, orderText }
+    }
+    attachments = prepared.attachments
+  } catch (e) {
+    console.error('Attachment error:', e)
+    return {
+      success: false,
+      attachmentFailed: true,
+      error: 'We could not read one of your attached files. Remove it and try again, or email it to centralvaults@centralvaults.com.',
+      orderText,
+    }
+  }
+
   const orders = JSON.parse(localStorage.getItem('cbvi_orders') || '[]')
   orders.push({
     id: Date.now(),
@@ -71,10 +91,18 @@ export async function submitOrder(form, files) {
         'x-api-key': API_KEY,
         'x-access-password': getAccess(),
       },
-      body: JSON.stringify({ orderText, form }),
+      body: JSON.stringify({ orderText, form, attachments }),
     })
     if (res.status === 401) {
       return { success: false, unauthorized: true, orderText }
+    }
+    if (res.status === 413) {
+      return {
+        success: false,
+        tooLarge: true,
+        error: 'Your attached files are too large to send with the order. Remove one and try again, or email them to centralvaults@centralvaults.com.',
+        orderText,
+      }
     }
     const data = await res.json()
     return { success: true, emailSent: data.success && !data.partial, orderText }
